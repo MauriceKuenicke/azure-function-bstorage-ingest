@@ -4,7 +4,7 @@ import toml
 import os
 from azure.storage.blob import BlobServiceClient
 from datetime import datetime
-from core import create_file_handler, LOG_FILE_PATH
+from core import LOG_FILE_PATH, LOG_FILE_HANDLER
 
 
 TOML_FILE_PATH = "config.toml"
@@ -39,7 +39,7 @@ def create_result_base_path(file_root: str) -> str:
                   connection="StorageConnection")
 def test_function(newblob: func.InputStream):
     # ATTACH FILE HANDLER
-    logging.getLogger().addHandler(create_file_handler())
+    logging.getLogger().addHandler(LOG_FILE_HANDLER)
 
     # INIT
     logging.info(f"Python blob trigger function processed blob: {newblob.name}")
@@ -107,7 +107,7 @@ def test_function(newblob: func.InputStream):
 
         # CLEAR LOCAL FILES
         if True:
-            logging.getLogger().removeHandler(create_file_handler())
+            logging.getLogger().removeHandler(LOG_FILE_HANDLER)
             if os.path.exists(LOG_FILE_PATH):
                 os.remove(LOG_FILE_PATH)
 
